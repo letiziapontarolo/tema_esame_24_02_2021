@@ -6,12 +6,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import it.polito.tdp.PremierLeague.model.Action;
 import it.polito.tdp.PremierLeague.model.Match;
 import it.polito.tdp.PremierLeague.model.Player;
 import it.polito.tdp.PremierLeague.model.Team;
 
 public class PremierLeagueDAO {
+	
+	public void creaVertici(Map<Integer, Player> playersIdMap, int matchId) {
+		String sql = "SELECT p.*, (SUM(a.TotalSuccessfulPassesAll) + SUM(a.Assists))/ a.TimePlayed AS efficienza, a.TeamID "
+				+ "FROM players p, actions a "
+				+ "WHERE p.PlayerID = a.PlayerID "
+				+ "AND a.MatchID = ? "
+				+ "GROUP BY p.PlayerID";
+		Connection conn = DBConnect.getConnection();
+		try {
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(1, matchId);
+		ResultSet res = st.executeQuery();
+		while (res.next()) {
+		
+		Player p = new Player(res.getInt("PlayerId"), res.getString("Name"));
+		p.setEfficienza(res.getDouble("efficienza"));
+		p.setTeamId(res.getInt("TeamID"));
+		playersIdMap.put(res.getInt("PlayerId"), p);
+		}
+		conn.close();
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+
+	}
 	
 	public List<Player> listAllPlayers(){
 		String sql = "SELECT * FROM Players";

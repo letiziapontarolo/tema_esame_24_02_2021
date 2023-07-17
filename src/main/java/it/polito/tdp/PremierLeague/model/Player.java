@@ -3,6 +3,9 @@ package it.polito.tdp.PremierLeague.model;
 public class Player {
 	Integer playerID;
 	String name;
+	double efficienza;
+	Integer teamId;
+	double deltaEfficienza;
 	
 	public Player(Integer playerID, String name) {
 		super();
@@ -10,6 +13,43 @@ public class Player {
 		this.name = name;
 	}
 	
+	
+	
+
+	public double getDeltaEfficienza() {
+		return deltaEfficienza;
+	}
+
+
+
+
+	public void setDeltaEfficienza(double deltaEfficienza) {
+		this.deltaEfficienza = deltaEfficienza;
+	}
+
+
+
+
+	public double getEfficienza() {
+		return efficienza;
+	}
+
+	public void setEfficienza(double efficienza) {
+		this.efficienza = efficienza;
+	}
+
+	public Integer getTeamId() {
+		return teamId;
+	}
+
+
+
+	public void setTeamId(Integer teamId) {
+		this.teamId = teamId;
+	}
+
+
+
 	public Integer getPlayerID() {
 		return playerID;
 	}
